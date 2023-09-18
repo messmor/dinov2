@@ -86,7 +86,7 @@ def crop_hands_from_image(image, pixel_coords, side="right"):
 
     hand_images = []
     for person_id in range(num_persons):
-        square_size = max(collar_len[person_id] / 3.5, 2.5*palm_len[person_id])
+        square_size = max(collar_len[person_id] / 2, 4*palm_len[person_id])
         crop_image, crop_data = crop_hand(image.copy(), box_center=knuckle[person_id], square_size=square_size)
         hand_images.append(crop_image)
 

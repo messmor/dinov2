@@ -1,3 +1,4 @@
+import cv2
 import torch
 import urllib
 import mmcv
@@ -6,6 +7,11 @@ import urllib
 from PIL import Image
 from pathlib import Path
 from depth_maps_utils import create_depther, render_depth, make_depth_transform
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+mpl.use('TkAgg')
 
 
 # Load Model Backbone
@@ -57,6 +63,8 @@ model.cuda()
 
 # Show Example Image
 image_folder = Path("/home/inseer/data/Hand_Testing/Orientation/Front_Flexion_And_Extension/hand_crops")
+save_dir = Path("/home/inseer/data/Hand_Testing/Orientation/Front_Flexion_And_Extension/hand_depth_maps/")
+save_dir.mkdir(exist_ok=True, parents=True)
 for image_path in image_folder.iterdir():
     image = Image.open(image_path.as_posix())
     # Create Depth Map Estimate
@@ -70,7 +78,9 @@ for image_path in image_folder.iterdir():
         result = model.whole_inference(batch, img_meta=None, rescale=True)
 
     depth_image = render_depth(result.squeeze().cpu())
-    depth_image.show()
+    depth_image = np.asarray(depth_image)
+    save_path = save_dir / image_path.name
+    cv2.imwrite(save_path.as_posix(), depth_image)
 
 
 
