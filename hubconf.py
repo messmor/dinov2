@@ -27,9 +27,10 @@ def _make_dinov2_model(
     ffn_layer: str = "mlp",
     block_chunks: int = 0,
     pretrained: bool = True,
+    weights_path = None,
     **kwargs,
 ):
-    from dinov2.models import vision_transformer as vits
+    from src.Hand_Orientation.dinov2.dinov2.models import vision_transformer as vits
 
     model_name = _make_dinov2_model_name(arch_name, patch_size)
     vit_kwargs = dict(
@@ -43,9 +44,12 @@ def _make_dinov2_model(
     model = vits.__dict__[arch_name](**vit_kwargs)
 
     if pretrained:
-        url = _DINOV2_BASE_URL + f"/{model_name}/{model_name}_pretrain.pth"
-        state_dict = torch.hub.load_state_dict_from_url(url, map_location="cpu")
-        model.load_state_dict(state_dict, strict=False)
+        if weights_path:
+            model.load_state_dict(torch.load(weights_path))
+        else:
+            url = _DINOV2_BASE_URL + f"/{model_name}/{model_name}_pretrain.pth"
+            state_dict = torch.hub.load_state_dict_from_url(url, map_location="cpu")
+            model.load_state_dict(state_dict, strict=False)
 
     return model
 

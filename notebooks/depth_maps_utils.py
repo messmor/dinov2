@@ -8,7 +8,7 @@ import torch.nn.functional as F
 import matplotlib
 from torchvision import transforms
 
-from dinov2.eval.depth.models import build_depther
+from src.Hand_Orientation.dinov2.dinov2.eval.depth.models import build_depther
 
 
 class CenterPadding(torch.nn.Module):
