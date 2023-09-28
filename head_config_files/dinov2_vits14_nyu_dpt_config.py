@@ -280,5 +280,5 @@ evaluation = dict(
     save_best='abs_rel',
     greater_keys=('a1', 'a2', 'a3'),
     less_keys=('abs_rel', 'rmse'))
-work_dir = 'src/Hand_Orientation/dinov2/weights/dinov2_vits14_nyu_dpt.pth'
+work_dir = 'src/Hand_Orientation/dinov2/nyu_weights/dinov2_vits14_nyu_dpt.pth'
 gpu_ids = range(0, 1)
